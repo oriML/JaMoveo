@@ -55,9 +55,11 @@ JaMoveo helps musicians and singers manage jam sessions, share lyrics and chords
 *(Add your project screenshots here. Create a `screenshots` directory in the root of your project and place images there.)*
 
 Example:
-![Login Page](screenshots/login.png)
-![Live Session View](screenshots/live_session.png)
-![Session List](screenshots/session_list.png)
+![Login Page](screenshots/login-screen-sh.png)
+![Signup Page](screenshots/signup-mobile-sh.png)
+![Admin Create Session](screenshots/create-session-sh.png)
+![Live Session View](screenshots/session-live.png)
+![Session Feed](screenshots/sessions-feed.png)
 
 ## Getting Started (For Developers)
 
