@@ -40,7 +40,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   public isLoading = signal(true);
   public error = signal<string | null>(null);
 
-  public isInstrumentalist = signal(false);
   public isScrolling = signal(false);
   public isAdmin = signal(false);
 
@@ -73,7 +72,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
 
     const currentUser = this.authService.currentUser();
     if (currentUser) {
-      this.isInstrumentalist.set(!!currentUser.instrument && currentUser.instrument.toLowerCase() !== 'vocals');
       this.isAdmin.set(currentUser.role === Role.Admin);
     }
   }
