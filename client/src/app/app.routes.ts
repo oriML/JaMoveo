@@ -4,6 +4,11 @@ import { roleGuard } from './auth/role.guard';
 import { Role } from './auth/auth.service';
 
 export const routes: Routes = [
+    {
+    path: '',
+    redirectTo: '/sessions',
+    pathMatch: 'full',
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -43,12 +48,6 @@ export const routes: Routes = [
     path: 'sessions',
     loadComponent: () => import('./sessions/list/session-list.component').then(m => m.SessionListComponent),
     canActivate: [authGuard]
-  },
-  
-  {
-    path: '',
-    redirectTo: '/sessions',
-    pathMatch: 'full',
   },
   {
     path: '**',
