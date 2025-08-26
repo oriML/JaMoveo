@@ -1,0 +1,49 @@
+<div class="session-detail-container">
+  <header class="session-detail-header">
+    <h1 class="title">Session Details</h1>
+    <p class="subtitle">{{ session()?.name }}</p>
+  </header>
+
+  @if (isLoading()) {
+    <div class="loading-indicator">
+      <p>Loading session details...</p>
+    </div>
+  }
+
+  @if (error() && !isLoading()) {
+    <div class="error-message">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (session() && !isLoading() && !error()) {
+    <div class="session-content">
+      <div class="session-details-card">
+        <h2>Session Information</h2>
+        <p><strong>Description:</strong> {{ session()?.description || 'N/A' }}</p>
+        <p><strong>Genre:</strong> {{ session()?.genre | titlecase }}</p>
+        <p><strong>Max Participants:</strong> {{ session()?.max_participants }}</p>
+        <p><strong>Created At:</strong> {{ session()?.created_at | date:'mediumDate' }}</p>
+        @if (session()?.song_title) {<p><strong>Current Song:</strong> {{ session()?.song_title }} by {{ session()?.song_artist }}</p>}
+
+        <app-quit [sessionId]="sessionId" [isAdmin]="isAdmin()"></app-quit>
+      </div>
+
+      <div class="participants-card">
+        <h2>Participants ({{ session()?.participants.length }})</h2>
+        <div class="participants-list">
+          @for (p of session()?.participants; track p.id) {
+            <div class="participant-item">
+              {{ p.username }} ({{ p.instrument | titlecase }})
+            </div>
+          }
+          @if (session()?.participants.length === 0) {
+            <div class="empty-state">
+              No one has joined yet.
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

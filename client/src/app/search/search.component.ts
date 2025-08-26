@@ -1,0 +1,79 @@
+
+import { Component, inject, signal, Output, EventEmitter, OnInit, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { finalize, debounceTime, distinctUntilChanged, switchMap, catchError, tap } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+
+export interface Song {
+  id: string;
+  title: string;
+  artist: string;
+  duration: string;
+  lines: { chords: string, lyrics: string }[];
+}
+
+@Component({
+  selector: 'app-search',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
+})
+export class SearchComponent implements OnInit {
+  private http = inject(HttpClient);
+
+  songSelected = output<Song>();
+
+  // Internal state signals
+  public searchQuery = signal('');
+  public results = signal<Song[]>([]);
+  public isLoading = signal(false);
+  public error = signal<string | null>(null);
+
+  private searchInputSubject = new Subject<string>();
+
+  ngOnInit(): void {
+    this.searchInputSubject.pipe(
+      debounceTime(300), // Slightly faster debounce time
+      distinctUntilChanged(),
+      tap(query => {
+        this.isLoading.set(true);
+        this.error.set(null);
+        this.searchQuery.set(query);
+        if (!query.trim()) {
+            this.results.set([]);
+        }
+      }),
+      switchMap(query => {
+        if (!query.trim()) {
+          return of([]); // Return empty observable if query is empty
+        }
+        return this.http.get<Song[]>(`http://localhost:3000/api/search?q=${query}`).pipe(
+          catchError((err) => {
+            this.error.set(err.error?.message || 'An error occurred during search.');
+            return of([]); // Return empty array on error
+          })
+        );
+      }),
+      finalize(() => this.isLoading.set(false))
+    ).subscribe(results => {
+      this.results.set(results);
+      this.isLoading.set(false);
+    });
+  }
+
+  onSearchInputChange(event: any): void {
+    const query = event.target.value;
+    this.searchInputSubject.next(query);
+  }
+
+  selectSong(song: Song): void {
+    this.songSelected.emit(song);
+    this.searchQuery.set(''); // Clear search bar
+    this.results.set([]); // Clear results
+    this.error.set(null);
+  }
+}
+

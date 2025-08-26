@@ -1,0 +1,118 @@
+@import '../../styles/variables';
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  position: fixed;
+  top: $spacing-md;
+  left: $spacing-md;
+  z-index: 1001;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: $spacing-sm;
+  background-color: $neutral-gray-darkest;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+
+  .icon-bar {
+    width: 25px;
+    height: 3px;
+    background-color: $secondary-white;
+    transition: all $transition-speed $transition-ease;
+  }
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: $neutral-gray-darkest;
+  color: $secondary-white;
+  box-shadow: $shadow-md;
+  transition: left $transition-speed $transition-ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+
+  &.open {
+    left: 0;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md;
+    border-bottom: 1px solid $neutral-gray-dark;
+
+    .sidebar-logo {
+      color: $secondary-white;
+      text-decoration: none;
+      font-size: 1.5em;
+      font-weight: bold;
+
+      @media (max-width: 768px) {
+        font-size: 1.3em;
+      }
+    }
+
+    .close-btn {
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 0 5px;
+      transition: color $transition-speed $transition-ease;
+
+      &:hover {
+        color: $error-red;
+      }
+    }
+  }
+
+  .sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+
+    li {
+      a {
+        display: block;
+        color: $secondary-white;
+        text-decoration: none;
+        padding: $spacing-md;
+        border-bottom: 1px solid $neutral-gray-dark;
+        transition: background-color $transition-speed $transition-ease;
+
+        &:hover,
+        &.active {
+          background-color: $neutral-gray-dark;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0.95em;
+          padding: $spacing-sm $spacing-md;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    display: flex;
+  }
+
+  .sidebar {
+    width: 250px;
+  }
+}
+
+@media (min-width: 769px) {
+  .sidebar-toggle {
+    display: flex;
+  }
+}

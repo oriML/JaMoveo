@@ -1,0 +1,91 @@
+@import './styles/variables';
+
+
+// Global styles
+body {
+  font-family: $font-family-sans-serif;
+  margin: 0;
+  background-color: $secondary-white;
+  color: $neutral-gray-dark;
+  font-size: $base-font-size;
+}
+
+// Basic button styles (can be extended per component)
+.button {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $base-font-size;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all $transition-speed $transition-ease;
+
+  &--primary {
+    background-color: $primary-pink;
+    color: $secondary-white;
+
+    &:hover {
+      background-color: $primary-pink-light;
+    }
+
+    &:active {
+      background-color: $primary-pink-dark;
+    }
+  }
+
+  &--secondary {
+    background-color: $neutral-gray-light;
+    color: $neutral-gray-dark;
+
+    &:hover {
+      background-color: $neutral-gray-medium;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Basic form field styles
+.form-field {
+  margin-bottom: $spacing-lg;
+
+  &-label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: bold;
+    color: $neutral-gray-dark;
+    padding-top: $spacing-xs;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    width: 100%;
+    padding: 12px 0;
+    text-indent: 8px;
+    border: 1px solid $neutral-gray-light;
+    border-radius: $border-radius-md;
+    font-size: $base-font-size;
+    color: $neutral-gray-dark;
+    transition: all $transition-speed $transition-ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: $shadow-sm;
+    }
+
+    &[aria-invalid='true'] {
+      border-color: $error-red;
+    }
+  }
+
+  &-error {
+    color: $error-red;
+    font-size: 0.85em;
+    margin-top: $spacing-xs;
+  }
+}

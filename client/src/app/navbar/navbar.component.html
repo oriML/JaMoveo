@@ -1,0 +1,49 @@
+@if(!isOpen()){
+<div class="sidebar-toggle" (click)="toggleSidebar()">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</div>
+}
+<nav class="sidebar" [class.open]="isOpen()">
+  <div class="sidebar-header">
+    <a routerLink="/" class="sidebar-logo" (click)="closeSidebar()">JamSession</a>
+    <div class="close-btn" (click)="closeSidebar()">X</div>
+  </div>
+
+  <ul class="sidebar-links">
+    <!-- Always visible links -->
+    @if (!isLoggedIn()) {
+    <li>
+      <a routerLink="/login" routerLinkActive="active" (click)="closeSidebar()">Login</a>
+    </li>
+    <li>
+      <a routerLink="/signup" routerLinkActive="active" (click)="closeSidebar()">Sign Up</a>
+    </li>
+    }
+
+    <!-- User-specific links -->
+    @if (isLoggedIn()) {
+    @if (isUser) {
+    <li>
+      <a routerLink="/sessions" routerLinkActive="active" (click)="closeSidebar()">My Sessions</a>
+    </li>
+    }
+
+    <!-- Admin-specific links -->
+    @if (isAdmin) {
+    <li>
+      <a routerLink="/admin/create-session" routerLinkActive="active" (click)="closeSidebar()">Create Session</a>
+    </li>
+    <li>
+      <a routerLink="/sessions" routerLinkActive="active" (click)="closeSidebar()">Manage Sessions</a>
+    </li>
+    }
+
+    <!-- Logout link -->
+    <li>
+      <a (click)="logout()">Logout ({{ currentUser()?.username }})</a>
+    </li>
+    }
+  </ul>
+</nav>

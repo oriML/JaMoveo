@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+
+.instrument-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Always 1 column */
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.instrument-card {
+  background-size: cover;
+  background-position: center;
+  padding: 100px;
+  border: 2px solid $neutral-gray-light;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all $transition-speed $transition-ease;
+
+  &:hover {
+    transform: translateY(-$spacing-xxs);
+    box-shadow: $shadow-md;
+  }
+
+  &.selected {
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.3);
+    transform: scale(1.02); /* Subtle scaling effect */
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-pink-dark;
+    outline-offset: 2px;
+  }
+
+  &__image-bg {
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: $spacing-sm;
+  }
+
+  &-name {
+    font-weight: bold;
+    color: $neutral-gray-darkest;
+    text-align: center;
+  }
+}

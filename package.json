@@ -1,0 +1,12 @@
+{
+  "name": "jam-session-manager",
+  "version": "1.0.0",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm:server\" \"npm:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

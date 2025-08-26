@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="form-card">
+    <header class="form-card-header">
+      <h1 class="title">Create a New Jam Session</h1>
+      <p class="subtitle">Set up the details and invite others to join.</p>
+    </header>
+
+    <form class="session-form" [formGroup]="createSessionForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Song Search and Selection -->
+      <div class="form-field song-selection-section">
+        <label class="form-field-label">Select a Song</label>
+        @if (!selectedSong) {
+        <div class="song-search-section">
+          <app-search (songSelected)="selectSong($event)"></app-search>
+        </div>
+        }
+
+        @if (selectedSong) {
+        <div class="selected-song-display">
+          <span>Selected: <strong>{{ selectedSong.title }}</strong> by <strong>{{ selectedSong.artist }}</strong></span>
+          <button type="button" class="button button--remove" (click)="removeSelectedSong()">Remove</button>
+        </div>
+        }
+        @if (!selectedSong && (createSessionForm.dirty || createSessionForm.touched)) {
+        <div class="form-field-error" aria-live="assertive">
+          A song must be selected.
+        </div>
+        }
+      </div>
+
+      <!-- Session Name -->
+      <div class="form-field">
+        <label for="name" class="form-field-label">Session Title</label>
+        <input id="name" type="text" formControlName="name" class="form-field-input"
+          [attr.aria-invalid]="name?.invalid && name?.touched">
+        @if (name?.invalid && (name?.dirty || name?.touched)) {
+        <div class="form-field-error" aria-live="polite">
+          @if (name?.errors?.['required']) {<span>A title is required.</span>}
+          @if (name?.errors?.['minlength']) {<span>Title must be at least 5 characters.</span>}
+        </div>
+        }
+      </div>
+
+      <!-- Description -->
+      <div class="form-field">
+        <label for="description" class="form-field-label">Description (Optional)</label>
+        <textarea id="description" formControlName="description" class="form-field-textarea" rows="3"></textarea>
+      </div>
+
+      <div class="form-row">
+        <!-- Genre -->
+        <div class="form-field">
+          <label for="genre" class="form-field-label">Genre</label>
+          <select id="genre" formControlName="genre" class="form-field-select">
+            @for (genre of genres; track genre) {<option [value]="genre">{{ genre | titlecase }}</option>}
+          </select>
+        </div>
+
+        <!-- Max Participants -->
+        <div class="form-field">
+          <label for="maxParticipants" class="form-field-label">Max Participants</label>
+          <input id="maxParticipants" type="number" formControlName="maxParticipants" class="form-field-input"
+            [attr.aria-invalid]="maxParticipants?.invalid && maxParticipants?.touched">
+          @if (maxParticipants?.invalid && (maxParticipants?.dirty || maxParticipants?.touched)) {
+          <div class="form-field-error" aria-live="polite">
+            @if (maxParticipants?.errors?.['min']) {<span>Must allow at least 2 participants.</span>}
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- API Error -->
+      @if (apiError) {
+      <div class="form-field-error error-api" aria-live="assertive">
+        {{ apiError }}
+      </div>
+      }
+
+      <!-- Submit Button -->
+      <button type="submit" class="button button--primary"
+        [disabled]="createSessionForm.invalid || isSubmitting || !selectedSong">
+        @if (!isSubmitting) {<span>Create Session</span>}
+        @if (isSubmitting) {<span>Creating...</span>}
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="container">
+  <header class="header">
+    <h1 class="title">Jam Sessions</h1>
+    <div class="actions">
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div class="loading-indicator">
+      <p>Loading sessions...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error-message">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!isLoading() && !error()) {
+    <div class="session-list">
+      @if (sessions().length === 0) {
+        <div class="no-sessions">
+          <p>No public sessions available. Be the first to create one!</p>
+        </div>
+      } @else {
+        <div class="session-grid">
+          @for (session of sessions(); track session.id) {
+            <div class="session-card" (click)="viewSessionDetails(session.id)">
+              <h2 class="title">{{ session.name }}</h2>
+              <span class="genre">{{ session.genre | titlecase }}</span>
+              <p class="description">{{ session.description || 'No description provided.' }}</p>
+              <div class="details">
+                <span>Participants: {{ session.participants.length }} / {{ session.max_participants }}</span>
+                <span>Created: {{ session.created_at | date:'shortDate' }}</span>
+              </div>
+              <button class="button button--tertiary">Join/View Session</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,346 @@
+@import '../../styles/variables';
+
+:host {
+  --primary-color: #d81b60;
+  --primary-color-hover: #f06292;
+  --background-color: #f4f7f6;
+  --panel-background-color: #ffffff;
+  --text-color: #424242;
+  --light-text-color: #9e9e9e;
+  --border-color: #e0e0e0;
+  --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --toggle-button-bg: #e0e0e0;
+  --toggle-button-hover: #9e9e9e;
+}
+
+.live-view-container {
+  padding: $spacing-md;
+  background-color: $neutral-gray-lightest;
+  min-height: 100vh;
+
+  @media (min-width: 769px) {
+    padding: $spacing-xl;
+  }
+}
+
+.live-view-header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+
+  .live-view-header-title {
+    color: $neutral-gray-darkest;
+    margin-bottom: $spacing-xs;
+    font-size: 1.6em;
+
+    @media (min-width: 769px) {
+      font-size: 1.8em;
+    }
+  }
+
+  .live-view-header-subtitle {
+    color: $neutral-gray-medium;
+    font-size: 0.9em;
+
+    @media (min-width: 769px) {
+      font-size: 1em;
+    }
+  }
+}
+
+.current-song-display {
+  margin-top: $spacing-lg;
+  padding: $spacing-md;
+  background-color: $secondary-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  text-align: center;
+
+  h2 {
+    color: $primary-pink;
+    margin: 0 0 $spacing-xs 0;
+    font-size: 1.5em;
+
+    @media (min-width: 769px) {
+      font-size: 1.8em;
+    }
+  }
+
+  p {
+    color: $neutral-gray-dark;
+    margin: 0;
+    font-size: 0.9em;
+
+    @media (min-width: 769px) {
+      font-size: 1em;
+    }
+  }
+}
+
+.loading-indicator, .error-message {
+  text-align: center;
+  padding: $spacing-xl;
+  color: $neutral-gray-medium;
+}
+
+.error-message {
+  color: $error-red;
+}
+
+.join-session-prompt {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    color: $primary-pink;
+    margin-bottom: $spacing-md;
+  }
+
+  .button {
+    padding: $spacing-sm $spacing-lg;
+    font-size: 1.1em;
+  }
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Main feed (2 parts) and side panels (1 part) */
+  gap: $spacing-xl;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr; /* Stack on medium screens */
+  }
+}
+
+.side-panels {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.panel {
+  background-color: $secondary-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+
+  h2 {
+    color: $primary-pink;
+    margin: 0 0 $spacing-md 0;
+    text-align: center;
+    font-size: 1.4em;
+
+    @media (min-width: 769px) {
+      font-size: 1.5em;
+    }
+  }
+
+  .panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-md;
+  border: 1px solid $neutral-gray-light;
+  border-radius: $border-radius-md;
+  background-color: $secondary-white;
+  box-shadow: $shadow-sm;
+  transition: transform $transition-speed $transition-ease;
+
+  &:hover {
+    transform: translateY(-$spacing-xxs);
+  }
+
+  .user-card-name {
+    font-weight: bold;
+    color: $neutral-gray-darkest;
+    margin-bottom: $spacing-xxs;
+    font-size: 1em;
+
+    @media (min-width: 769px) {
+      font-size: 1.1em;
+    }
+  }
+
+  .user-card-instrument {
+    font-size: 0.85em;
+    color: $neutral-gray-medium;
+    margin-bottom: $spacing-xs;
+
+    @media (min-width: 769px) {
+      font-size: 0.9em;
+    }
+  }
+}
+
+.button--toggle {
+  background-color: $neutral-gray-light;
+  color: $neutral-gray-dark;
+  border: none;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: background-color $transition-speed $transition-ease;
+
+  &:hover {
+    background-color: $neutral-gray-medium;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: $neutral-gray-medium;
+  padding: $spacing-md;
+}
+
+.lyrics-chords-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #363636; /* Soft Dark Background */
+
+  .panel-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lyrics-scroll-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 300px; /* Adjust as needed */
+    padding-right: $spacing-xs;
+    scroll-behavior: smooth;
+  }
+
+  .song-line {
+    margin-bottom: $spacing-md;
+
+    .chords {
+      font-weight: bold;
+      color: $primary-pink; /* Deep Pink */
+      margin-bottom: $spacing-xxs;
+      font-size: 1.1em;
+      text-transform: uppercase;
+
+      @media (min-width: 769px) {
+        font-size: 1.2em;
+      }
+    }
+
+    .lyrics {
+      color: $primary-pink; /* Deep Pink */
+      line-height: 1.5;
+      font-size: 1.2em;
+
+      @media (min-width: 769px) {
+        font-size: 1.4em;
+      }
+    }
+  }
+
+  .scroll-controls {
+    text-align: center;
+    margin-top: $spacing-md;
+
+    .button--toggle-scroll {
+      background-color: $primary-pink;
+      color: $secondary-white;
+      padding: $spacing-sm $spacing-lg;
+      border-radius: $border-radius-md;
+
+      &:hover {
+        background-color: $primary-pink-light;
+      }
+    }
+  }
+
+  .info-message {
+    text-align: center;
+    color: $neutral-gray-medium;
+    font-style: italic;
+    padding: $spacing-md;
+  }
+}
+
+.admin-controls-panel {
+  .song-management-section,
+  .end-session-section {
+    margin-bottom: $spacing-lg;
+
+    h3 {
+      color: $neutral-gray-darkest;
+      margin: 0 0 $spacing-md 0;
+      font-size: 1.1em;
+
+      @media (min-width: 769px) {
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  .song-search-section {
+    margin-bottom: $spacing-md;
+
+    app-search {
+      width: 100%;
+    }
+  }
+
+  .song-search-results {
+    border: 1px solid $neutral-gray-light;
+    border-radius: $border-radius-md;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: $spacing-md;
+    box-shadow: $shadow-sm;
+
+    .song-result-item {
+      padding: $spacing-sm;
+      cursor: pointer;
+      border-bottom: 1px solid $neutral-gray-light;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: $neutral-gray-lightest;
+      }
+    }
+  }
+
+  .selected-song-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $neutral-gray-lightest;
+    padding: $spacing-sm;
+    border-radius: $border-radius-md;
+
+    strong {
+      color: $neutral-gray-dark;
+    }
+
+    .button--remove {
+      background: none;
+      border: none;
+      color: $error-red;
+      cursor: pointer;
+      font-size: 0.9em;
+      padding: 0;
+      margin-left: $spacing-md;
+    }
+  }
+
+  .search-message {
+    font-size: 0.9em;
+    color: $neutral-gray-medium;
+    margin-top: $spacing-xs;
+    text-align: center;
+  }
+}

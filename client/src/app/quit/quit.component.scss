@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+
+.quit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+}
+
+.button-warning {
+  background-color: $error-red;
+  color: $secondary-white;
+  padding: $spacing-sm $spacing-lg;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color $transition-speed $transition-ease;
+
+  &:hover:not(:disabled) {
+    background-color: darken($error-red, 10%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.error-message {
+  color: $error-red;
+  font-size: 0.9em;
+  text-align: center;
+}

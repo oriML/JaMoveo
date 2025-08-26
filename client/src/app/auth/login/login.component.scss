@@ -1,0 +1,86 @@
+@import '../../../styles/variables';
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: $spacing-md;
+
+  @media (min-width: 769px) {
+    padding: $spacing-xl;
+  }
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  padding: $spacing-lg;
+  background-color: $secondary-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-lg;
+
+    .title {
+      color: $neutral-gray-darkest;
+      margin: 0 0 $spacing-xs 0;
+      font-size: 1.6em;
+
+      @media (min-width: 769px) {
+        font-size: 1.8em;
+      }
+    }
+
+    .subtitle {
+      color: $neutral-gray-medium;
+      margin: 0;
+      font-size: 0.9em;
+
+      @media (min-width: 769px) {
+        font-size: 1em;
+      }
+    }
+  }
+
+  &-footer {
+    text-align: center;
+    margin-top: $spacing-lg;
+    font-size: 0.9em;
+    color: $neutral-gray-medium;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    a {
+      color: $primary-pink;
+      text-decoration: none;
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.form-field {
+  margin-bottom: $spacing-lg;
+
+  .error-api {
+    text-align: center;
+    background-color: lighten($error-red, 40%);
+    color: $error-red;
+    padding: $spacing-sm;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.button {
+  width: 100%;
+  padding: $spacing-md;
+  font-size: 1.1em;
+}

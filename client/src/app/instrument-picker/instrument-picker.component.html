@@ -1,0 +1,17 @@
+<div class="instrument-grid">
+  @for (instrument of instruments; track instrument.value) {
+    <div
+      class="instrument-card"
+      [class.selected]="selectedInstrument() === instrument.value"
+      (click)="selectInstrument(instrument)"
+      (keydown)="onKeyDown($event, instrument)"
+      tabindex="0"
+      role="radio"
+      [attr.aria-checked]="selectedInstrument() === instrument.value"
+      [attr.aria-label]="'Select ' + instrument.name"
+      [style.background-image]="'url(' + instrument.image + ')'"
+    >
+      <!-- <div class="instrument-card-name">{{ instrument.name }}</div> -->
+    </div>
+  }
+</div>

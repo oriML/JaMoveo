@@ -1,0 +1,78 @@
+@import '../../styles/variables';
+
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar-input {
+  width: 100%;
+  padding: 12px 0px;
+  text-indent: 8px;
+  border: 1px solid $neutral-gray-light;
+  border-radius: $border-radius-pill;
+  font-size: 1em;
+  color: $neutral-gray-dark;
+  transition: all $transition-speed $transition-ease;
+  box-shadow: $shadow-sm;
+
+  &::placeholder {
+    color: $neutral-gray-medium;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.2);
+  }
+}
+
+.search-state {
+  text-align: center;
+  padding: 16px;
+  color: $neutral-gray-medium;
+  font-style: italic;
+
+  &.error {
+    color: $error-red;
+  }
+}
+
+.search-results-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  border-radius: $border-radius-md;
+  background-color: white;
+  box-shadow: $shadow-lg;
+  position: absolute;
+  width: 100%;
+  z-index: 1000; // Ensure it appears above other content
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid $neutral-gray-light;
+  cursor: pointer;
+  transition: background-color $transition-speed $transition-ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: $primary-pink-light;
+  }
+
+  .song-title {
+    font-weight: 600;
+    color: $neutral-gray-darkest;
+  }
+
+  .song-artist {
+    margin-left: 8px;
+    color: $neutral-gray-dark;
+  }
+}

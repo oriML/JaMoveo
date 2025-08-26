@@ -1,0 +1,11 @@
+@if(shouldShowNavbar){
+<app-navbar (sidebarToggle)="onSidebarToggle($event)"></app-navbar>
+}
+
+<div class="main-content" [class.shifted]="isSidebarOpen">
+  <router-outlet></router-outlet>
+</div>
+
+@if(shouldShowNavbar){
+<div class="overlay" [class.active]="isSidebarOpen" (click)="closeSidebar()"></div>
+}

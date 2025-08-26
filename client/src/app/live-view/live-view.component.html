@@ -1,0 +1,121 @@
+<div class="live-view-container">
+  <header class="live-view-header">
+    <h1 class="live-view-header-title">Live Session View</h1>
+    <p class="live-view-header-subtitle">Session ID: {{ sessionId }}</p>
+
+    <div class="current-song-display">
+      @if (songTitle(); as title) {
+      <h2>Current Song: {{ title }}</h2>
+      <p>Artist: {{ songArtist() }}</p>
+      } @else {
+      <h2>Waiting for the next song...</h2>
+      }
+    </div>
+  </header>
+
+  @if (isLoading()) {
+  <div class="loading-indicator">
+    <p>Loading live session data...</p>
+  </div>
+  }
+
+  @if (error() && !isLoading()) {
+  <div class="error-message">
+    <p>{{ error() }}</p>
+  </div>
+  }
+
+  @if (!isLoading() && !error()) {
+
+  <!-- Admin Controls (Song Selection & End Session) -->
+  @if (isAdmin()) {
+  <div class="panel admin-controls-panel top-panel">
+    <h2>Admin Controls</h2>
+    <div class="song-management-section">
+      <h3>Change Song</h3>
+      @if (!selectedSong) {
+        <app-search (songSelected)="selectSong($event)"></app-search>
+      }
+
+      @if (selectedSong) {
+      <div class="selected-song-display">
+        <span>Selected: <strong>{{ selectedSong.title }}</strong> by <strong>{{ selectedSong.artist }}</strong></span>
+        <button type="button" class="button button--remove" (click)="removeSelectedSong()">Remove</button>
+      </div>
+      }
+    </div>
+
+    <div class="end-session-section">
+      <h3>End Session</h3>
+      <app-quit [sessionId]="sessionId" [isAdmin]="isAdmin()"></app-quit>
+    </div>
+  </div>
+  }
+
+  <div class="main-layout">
+    <!-- Lyrics and Chords Panel (Main Feed) -->
+    <div class="panel lyrics-chords-panel main-feed">
+      <h2 class="panel-title">Lyrics & Chords</h2>
+      <div class="panel-content">
+        @if (songLines().length > 0) {
+        <div class="lyrics-scroll-container" #lyricsContainer>
+          @for (line of songLines(); track $index) {
+          <div class="song-line">
+            <div class="chords">{{ line.chords }}</div>
+            <div class="lyrics">{{ line.lyrics }}</div>
+          </div>
+          }
+        </div>
+        <div class="scroll-controls">
+          <button class="button button--toggle-scroll" (click)="toggleScrolling()">
+            {{ isScrolling() ? 'Pause Scroll' : 'Resume Scroll' }}
+          </button>
+        </div>
+        } @else {
+        <div class="empty-state">
+          <p>No song selected for this session yet.</p>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="side-panels">
+      <!-- Singers Panel -->
+      <div class="panel singers-panel">
+        <h2>Singers ({{ singers().length }})</h2>
+        <div class="panel-content">
+          @for (user of singers(); track user.id) {
+          <div class="user-card">
+            <span class="user-card-name">{{ user.username }}</span>
+            <span class="user-card-instrument">{{ user.instrument | titlecase }}</span>
+          </div>
+          }
+          @if (singers().length === 0) {
+          <div class="empty-state">
+            No singers yet.
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Musicians Panel -->
+      <div class="panel musicians-panel">
+        <h2>Musicians ({{ musicians().length }})</h2>
+        <div class="panel-content">
+          @for (user of musicians(); track user.id) {
+          <div class="user-card">
+            <span class="user-card-name">{{ user.username }}</span>
+            <span class="user-card-instrument">{{ user.instrument | titlecase }}</span>
+          </div>
+          }
+          @if (musicians().length === 0) {
+          <div class="empty-state">
+            No musicians yet.
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

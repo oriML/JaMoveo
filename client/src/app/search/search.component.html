@@ -1,0 +1,32 @@
+
+<div class="search-container">
+  <div class="search-bar-container">
+    <input
+      type="text"
+      (input)="onSearchInputChange($event)"
+      placeholder="Search for a song to add..."
+      class="search-bar-input"
+    />
+  </div>
+
+  @if (isLoading()) {
+    <div class="search-state loading">Searching...</div>
+  }
+
+  @if (error()) {
+    <div class="search-state error">{{ error() }}</div>
+  }
+
+  @if (results().length > 0) {
+    <ul class="search-results-list">
+      @for (song of results(); track song.id) {
+        <li class="search-result-item" (click)="selectSong(song)">
+          <span class="song-title">{{ song.title }}</span>
+          <span class="song-artist">{{ song.artist }}</span>
+        </li>
+      }
+    </ul>
+  } @else if (searchQuery() && !isLoading()) {
+    <div class="search-state no-results">No songs found.</div>
+  }
+</div>
