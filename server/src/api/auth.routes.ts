@@ -29,13 +29,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 
     const token = signToken(newUser);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/',
-    });
-    res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument });
+    res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument, token: token });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error during signup' });
@@ -59,13 +53,7 @@ router.post('/admin/signup', async (req: Request, res: Response) => {
 
     const token = signToken(newUser);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/',
-    });
-    res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument, secret_key: newUser.secret_key });
+    res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument, secret_key: newUser.secret_key, token: token });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error during admin signup' });
@@ -95,13 +83,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
     const token = signToken(user);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      path: '/',
-    });
-    res.status(200).json({ id: user.id, username: user.username, instrument: user.instrument, role: user.role, secret_key: user.secret_key });
+    res.status(200).json({ id: user.id, username: user.username, instrument: user.instrument, role: user.role, secret_key: user.secret_key, token: token });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error during login' });
@@ -109,13 +91,12 @@ router.post('/login', async (req: Request, res: Response) => {
 });
 
 router.post('/logout', (req: Request, res: Response) => {
-  res.cookie('token', '', { httpOnly: true, expires: new Date(0) });
   res.status(200).json({ message: 'Logged out successfully' });
 });
 
 router.get('/me', (req: Request, res: Response) => {
-  const token = req.cookies.token;
-
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
     return res.status(401).json({ message: 'No token, authorization denied' });
   }

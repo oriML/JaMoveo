@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:4200', // Allow CORS from specified origin or default
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
     credentials: true,
 };
 
@@ -25,7 +25,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// Apply authentication middleware to all /api routes except auth
 app.use('/api', (req, res, next) => {
     if (req.path.startsWith('/auth')) {
         return next();
