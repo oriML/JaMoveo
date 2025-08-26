@@ -42,7 +42,7 @@ export class SessionSocketService implements OnDestroy {
   public readonly participants: Signal<Participant[]> = computed(this._participants);
 
   constructor() {
-    this.socket = io(SOCKET_URL, {
+    this.socket = io('/', {
       autoConnect: false, // Only connect when user is logged in
       withCredentials: true,
     });
