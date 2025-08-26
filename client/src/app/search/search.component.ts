@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { finalize, debounceTime, distinctUntilChanged, switchMap, catchError, tap } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
 
+import { environment } from 'src/environments/environment';
+
 export interface Song {
   id: string;
   title: string;
@@ -50,7 +52,7 @@ export class SearchComponent implements OnInit {
         if (!query.trim()) {
           return of([]); // Return empty observable if query is empty
         }
-        return this.http.get<Song[]>(`http://localhost:3000/api/search?q=${query}`).pipe(
+        return this.http.get<Song[]>(`${environment.apiUrl}/api/search?q=${query}`).pipe(
           catchError((err) => {
             this.error.set(err.error?.message || 'An error occurred during search.');
             return of([]); // Return empty array on error

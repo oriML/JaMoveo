@@ -11,6 +11,8 @@ import { QuitComponent } from '../quit/quit.component';
 import { SearchComponent, Song } from '../search/search.component';
 import { JamSession } from '../sessions/session.service';
 
+import { environment } from 'src/environments/environment';
+
 interface SongLine {
   lyrics: string;
   chords: string;
@@ -77,7 +79,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('LiveViewComponent ngOnDestroy called.');
     if (this.sessionId) {
       this.socketService.leaveSession(this.sessionId);
     }
@@ -87,7 +88,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
 
   private fetchInitialSessionData(sessionId: string): void {
     this.isLoading.set(true);
-    this.http.get<JamSession>(`http://localhost:3000/api/sessions/${sessionId}`)
+    this.http.get<JamSession>(`${environment.apiUrl}/api/sessions/${sessionId}`)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (session) => {
@@ -129,7 +130,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
 
     if (title && artist) {
       try {
-        const songs = await lastValueFrom(this.http.get<Song[]>(`http://localhost:3000/api/search?q=${title}`));
+        const songs = await lastValueFrom(this.http.get<Song[]>(`${environment.apiUrl}/api/search?q=${title}`));
         const content = songs[0]?.lines;
         if (content?.length) {
           this.songLines.set(content);
@@ -138,7 +139,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
           this.songLines.set([{ chords: '', lyrics: 'Lyrics/Chords not available for this song.' }]);
         }
       } catch (error) {
-        console.error('Failed to fetch song content:', error);
         this.songLines.set([]);
       }
     } else {
@@ -187,7 +187,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   }
 
   private updateSessionSong(title: string | null, artist: string | null): void {
-    this.http.post(`http://localhost:3000/api/sessions/${this._sessionId}/song`, { song_title: title, song_artist: artist })
+    this.http.post(`${environment.apiUrl}/api/sessions/${this._sessionId}/song`, { song_title: title, song_artist: artist })
     .pipe(take(1))  
     .subscribe();
   }

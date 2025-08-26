@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
 import { SearchComponent, Song } from '../../search/search.component'; // Import SearchComponent
 
+import { environment } from 'src/environments/environment';
+
 // Enum for genre choices for type safety
 export enum Genre {
   Rock = 'ROCK',

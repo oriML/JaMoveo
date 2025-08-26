@@ -1,6 +1,6 @@
 <div class="signup-container">
   <form class="signup-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
-    <header class="signup-form__header">
+    <header class="signup-form-header">
       <h1 class="title">Create Your Account</h1>
       <p class="subtitle">Join a jam session today!</p>
     </header>
@@ -8,10 +8,10 @@
     <!-- Username Field -->
     <div class="form-field">
       <label for="username" class="form-field-label">Username</label>
-      <input id="username" type="text" formControlName="username" class="form-field__input"
+      <input id="username" type="text" formControlName="username" class="form-field-input"
         [attr.aria-invalid]="username?.invalid && username?.touched" aria-describedby="username-error">
       @if (username?.invalid && (username?.dirty || username?.touched)) {
-      <div id="username-error" class="form-field__error" aria-live="polite">
+      <div id="username-error" class="form-field-error" aria-live="polite">
         @if (username?.errors?.['required']) {<span>Username is required.</span>}
         @if (username?.errors?.['minlength']) {<span>Username must be at least 3 characters long.</span>}
       </div>
@@ -21,10 +21,10 @@
     <!-- Password Field -->
     <div class="form-field">
       <label for="password" class="form-field-label">Password</label>
-      <input id="password" type="password" formControlName="password" class="form-field__input"
+      <input id="password" type="password" formControlName="password" class="form-field-input"
         [attr.aria-invalid]="password?.invalid && password?.touched" aria-describedby="password-error">
       @if (password?.invalid && (password?.dirty || password?.touched)) {
-      <div id="password-error" class="form-field__error" aria-live="polite">
+      <div id="password-error" class="form-field-error" aria-live="polite">
         @if (password?.errors?.['required']) {<span>Password is required.</span>}
         @if (password?.errors?.['minlength']) {<span>Password must be at least 8 characters long.</span>}
       </div>
@@ -38,7 +38,7 @@
         <app-instrument-picker formControlName="instrument"></app-instrument-picker>
       </div>
       @if (instrument?.invalid && (instrument?.dirty || instrument?.touched)) {
-      <div class="form-field__error" aria-live="polite">
+      <div class="form-field-error" aria-live="polite">
         @if (instrument?.errors?.['required']) {<span>Please select an instrument.</span>}
       </div>
       }
@@ -47,7 +47,7 @@
 
     <!-- API Error -->
     @if (apiError) {
-    <div class="form-field__error error-api" aria-live="assertive">
+    <div class="form-field-error error-api" aria-live="assertive">
       {{ apiError }}
     </div>
     }

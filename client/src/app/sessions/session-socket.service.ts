@@ -12,7 +12,9 @@ export interface Message {
   timestamp: Date;
 }
 
-const SOCKET_URL = 'http://localhost:3000';
+import { environment } from 'src/environments/environment';
+
+const SOCKET_URL = environment.socketUrl;
 
 @Injectable({
   providedIn: 'root',
@@ -65,16 +67,13 @@ export class SessionSocketService implements OnDestroy {
   private connect(): void {
     if (this.socket.connected) return;
     this.socket.connect();
-    console.log('Socket connected');
   }
 
   private setupEventListeners(): void {
     this.socket.on('connect', () => {
-      console.log('Socket connected with ID:', this.socket.id);
     });
 
     this.socket.on('disconnect', (reason) => {
-      console.log('Socket disconnected:', reason);
       this._participants.set([]);
     });
 
@@ -83,7 +82,6 @@ export class SessionSocketService implements OnDestroy {
     });
 
     this.socket.on('participantJoined', (user: Participant) => {
-      console.log({user});
       this._participants.update(currentParticipants => {
         if (!currentParticipants.some(p => p.id === user.id)) {
           return [...currentParticipants, user];
@@ -94,13 +92,11 @@ export class SessionSocketService implements OnDestroy {
     });
 
     this.socket.on('participantLeft', (user: Participant) => {
-      console.log(`Received 'participantLeft' for user: ${user.username}.`);
       this._participants.update(currentParticipants => {
         if (!currentParticipants.some(p => p.id === user.id)) {
           return currentParticipants;
         }
         const updated = currentParticipants.filter(p => p.id !== user.id);
-        console.log(`Updated participants after leave:`, updated);
         return updated;
       });
       this.participantLeft.next(user);
@@ -119,14 +115,12 @@ export class SessionSocketService implements OnDestroy {
     });
 
     this.socket.on('error', (error: any) => {
-      console.error('Socket error:', error);
     });
   }
 
   joinSession(sessionId: string): void {
     const currentUser = this.authService.currentUser();
     if (!currentUser) {
-      console.error('Cannot join session: user not logged in.');
       return;
     }
     this.socket.emit('joinSession', { sessionId, user: currentUser });
@@ -135,7 +129,6 @@ export class SessionSocketService implements OnDestroy {
   leaveSession(sessionId: string): void {
     const currentUser = this.authService.currentUser();
     if (!currentUser) {
-      console.error('Cannot leave session: user not logged in.');
       return;
     }
     

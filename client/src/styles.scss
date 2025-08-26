@@ -60,9 +60,9 @@ body {
     padding-top: $spacing-xs;
   }
 
-  &__input,
-  &__select,
-  &__textarea {
+  &-input,
+  &-select,
+  &-textarea {
     width: 100%;
     padding: 12px 0;
     text-indent: 8px;

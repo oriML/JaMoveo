@@ -25,7 +25,9 @@ export interface JamSession {
   genre: string;
 }
 
-const API_URL = 'http://localhost:3000/api/sessions';
+import { environment } from 'src/environments/environment';
+
+const API_URL = `${environment.apiUrl}/api/sessions`;
 
 @Injectable({
   providedIn: 'root',

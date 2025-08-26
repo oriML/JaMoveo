@@ -1,6 +1,6 @@
 <div class="login-container">
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-    <header class="login-form__header">
+    <header class="login-form-header">
       <h1 class="title">Welcome Back</h1>
       <p class="subtitle">Log in to continue</p>
     </header>
@@ -8,10 +8,10 @@
     <!-- Username Field -->
     <div class="form-field">
       <label for="username" class="form-field-label">Username</label>
-      <input id="username" type="text" formControlName="username" class="form-field__input"
+      <input id="username" type="text" formControlName="username" class="form-field-input"
         [attr.aria-invalid]="username?.invalid && username?.touched" aria-describedby="username-error">
       @if (username?.invalid && (username?.dirty || username?.touched)) {
-      <div id="username-error" class="form-field__error" aria-live="polite">
+      <div id="username-error" class="form-field-error" aria-live="polite">
         @if (username?.errors?.['required']) {<span>Username is required.</span>}
       </div>
       }
@@ -20,10 +20,10 @@
     <!-- Password Field -->
     <div class="form-field">
       <label for="password" class="form-field-label">Password</label>
-      <input id="password" type="password" formControlName="password" class="form-field__input"
+      <input id="password" type="password" formControlName="password" class="form-field-input"
         [attr.aria-invalid]="password?.invalid && password?.touched" aria-describedby="password-error">
       @if (password?.invalid && (password?.dirty || password?.touched)) {
-      <div id="password-error" class="form-field__error" aria-live="polite">
+      <div id="password-error" class="form-field-error" aria-live="polite">
         @if (password?.errors?.['required']) {<span>Password is required.</span>}
       </div>
       }
@@ -33,12 +33,12 @@
     <!-- Secret Key Field (Optional) -->
     <div class="form-field">
       <label for="secretKey" class="form-field-label">Admin Secret Key (Optional)</label>
-      <input id="secretKey" type="password" formControlName="secretKey" class="form-field__input">
+      <input id="secretKey" type="password" formControlName="secretKey" class="form-field-input">
     </div>
 
     <!-- API Error -->
     @if (apiError) {
-    <div class="form-field__error error-api" aria-live="assertive">
+    <div class="form-field-error error-api" aria-live="assertive">
       {{ apiError }}
     </div>
     }

@@ -1,0 +1,61 @@
+<div class="container">
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="loading-indicator">
+      <p>Loading session details...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="error-message">
+      <h2>Could not load session</h2>
+      <p>{{ error() }}</p>
+      <a routerLink="/sessions" class="button button--secondary">Go Back</a>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (session(); as sess) {
+    <div class="session-card">
+      <header class="session-card-header">
+        <h1 class="title">{{ sess.name }}</h1>
+        <span class="genre">{{ sess.genre | titlecase }}</span>
+      </header>
+
+      <section class="session-card-body">
+        <p class="description">{{ sess.description }}</p>
+        
+        <div class="details">
+          <div class="detail-item">
+            <span class="label">Participants</span>
+            <span class="value">{{ sess.participants.length }} / {{ sess.max_participants }}</span>
+          </div>
+          <div class="detail-item">
+              <span class="label">Current Musicians</span>
+              <div class="participants-list">
+                @for (p of sess.participants; track p.id) {
+                  <span class="participant">
+                      {{ p.username }} ({{ p.instrument | titlecase }})
+                  </span>
+                }
+                   @if (sess.participants.length === 0) {<span>No one yet!</span>}
+              </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="session-card-footer">
+          @if (isJoining()) {<div class="loading-indicator">Joining...</div>}
+          @if (!isJoining()) {
+              <button 
+                  (click)="joinSession()" 
+                  class="button button--primary button--large">
+                  Join Session
+              </button>
+          }
+          @if (error()) {<div class="form-field-error error-api">{{ error() }}</div>}
+      </footer>
+    </div>
+  }
+</div>

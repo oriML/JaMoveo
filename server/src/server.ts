@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 
 const corsOptions = {
-    origin: 'http://localhost:4200', // The default Angular dev server port
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200', // Allow CORS from specified origin or default
     credentials: true,
 };
 

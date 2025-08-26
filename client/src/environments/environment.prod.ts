@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  socketUrl: 'https://your-production-domain.com' // Replace with your actual production socket URL
+  apiUrl: 'https://api.your-production-domain.com', // Placeholder for production API
+  socketUrl: 'https://socket.your-production-domain.com' // Replace with your actual production socket URL
 };

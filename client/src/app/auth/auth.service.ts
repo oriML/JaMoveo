@@ -25,7 +25,9 @@ export interface LoginDto extends Pick<User, 'username'> {
   password?: string;
 }
 
-const API_URL = 'http://localhost:3000/api/auth';
+import { environment } from 'src/environments/environment';
+
+const API_URL = `${environment.apiUrl}/api/auth`;
 
 @Injectable({
   providedIn: 'root',
