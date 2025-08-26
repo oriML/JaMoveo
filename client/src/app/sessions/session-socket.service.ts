@@ -42,12 +42,10 @@ export class SessionSocketService implements OnDestroy {
   public readonly participants: Signal<Participant[]> = computed(this._participants);
 
   constructor() {
-    this.socket = io('/', {
-      autoConnect: false, // Only connect when user is logged in
-      withCredentials: true,
+    this.socket = io(SOCKET_URL, {
+      autoConnect: false,
     });
 
-    // React to authentication state changes using an effect
     effect(() => {
       const user = this.authService.currentUser();
       if (user) {
@@ -135,7 +133,7 @@ export class SessionSocketService implements OnDestroy {
     this.socket.emit('leaveSession', { sessionId, user: currentUser });
   }
 
-  disconnect(): void {
+  private disconnect(): void {
     if (this.socket.connected) {
       this.socket.disconnect();
     }
