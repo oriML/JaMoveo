@@ -11,6 +11,7 @@ import sessionRoutes from './api/session.routes';
 import searchRoutes from './api/search.routes';
 import liveRoutes from './api/live.routes';
 import { initializeSocket } from './services/socket.service';
+import path from 'path';
 
 const app = express();
 const server = http.createServer(app);
@@ -43,11 +44,17 @@ const io = new Server(server, {
     cors: corsOptions
 });
 
-app.set('io', io); // Make io accessible to routes
+app.set('io', io);
 
 initializeSocket(io);
 
+const publicPath = path.join(__dirname, "public", "browser");
+app.use(express.static(publicPath));
+
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
+});
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    
 });
