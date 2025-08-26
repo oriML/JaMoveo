@@ -6,11 +6,11 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { authMiddleware } from './middleware/authMiddleware';
-
 import authRoutes from './api/auth.routes';
 import sessionRoutes from './api/session.routes';
 import searchRoutes from './api/search.routes';
 import liveRoutes from './api/live.routes';
+import { initializeSocket } from './services/socket.service';
 
 const app = express();
 const server = http.createServer(app);
@@ -38,7 +38,6 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/live', liveRoutes);
 
-import { initializeSocket } from './services/socket.service';
 
 const io = new Server(server, {
     cors: corsOptions
