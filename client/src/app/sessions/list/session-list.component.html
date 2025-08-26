@@ -21,14 +21,18 @@
     <div class="session-list">
       @if (sessions().length === 0) {
         <div class="no-sessions">
-          <p>No public sessions available. Be the first to create one!</p>
+          @if (isAdmin) {
+            <p>No public sessions available. Be the first to create one!</p>
+          } @else {
+            <p>Waiting for admin to create session...</p>
+          }
         </div>
       } @else {
         <div class="session-grid">
           @for (session of sessions(); track session.id) {
             <div class="session-card" (click)="viewSessionDetails(session.id)">
               <h2 class="title">{{ session.name }}</h2>
-              <span class="genre">{{ session.genre | titlecase }}</span>
+              <span class="genre" [ngClass]="getGenreStyle(session.genre) || 'genre-other'">{{ session.genre | titlecase }}</span>
               <p class="description">{{ session.description || 'No description provided.' }}</p>
               <div class="details">
                 <span>Participants: {{ session.participants.length }} / {{ session.max_participants }}</span>

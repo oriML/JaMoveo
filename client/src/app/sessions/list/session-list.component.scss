@@ -50,8 +50,12 @@
 
 .loading-indicator, .error-message, .no-sessions {
   text-align: center;
-  padding: $spacing-xl;
+  padding: $spacing-xl $spacing-lg; // Added horizontal padding
   color: $neutral-gray-medium;
+  background-color: $neutral-gray-lightest; // Added background for visual separation
+  border-radius: $border-radius-lg;
+  margin-top: $spacing-lg;
+  box-shadow: $shadow-sm;
 }
 
 .error-message {
@@ -95,13 +99,69 @@
   }
 
   .genre {
-    background-color: lighten($primary-pink, 30%);
-    color: $primary-pink-dark;
     padding: $spacing-xxs $spacing-sm;
     border-radius: $border-radius-md;
     font-weight: bold;
     font-size: 0.8em;
     align-self: flex-start;
+    white-space: nowrap;
+  }
+
+  .genre-rock {
+    background-color: #FFD1DC;
+    color: #C2185B;
+  }
+  .genre-jazz {
+    background-color: #BBDEFB;
+    color: #1976D2;
+  }
+  .genre-blues {
+    background-color: #C8E6C9;
+    color: #388E3C;
+  }
+  .genre-pop {
+    background-color: #FFF9C4;
+    color: #FBC02D;
+  }
+  .genre-electronic {
+    background-color: #D1C4E9;
+    color: #512DA8;
+  }
+  .genre-classical {
+    background-color: #CFD8DC;
+    color: #455A64;
+  }
+  .genre-hiphop {
+    background-color: #FFCCBC;
+    color: #E64A19;
+  }
+  .genre-rnb {
+    background-color: #F8BBD0;
+    color: #AD1457;
+  }
+  .genre-country {
+    background-color: #D7CCC8;
+    color: #5D4037;
+  }
+  .genre-folk {
+    background-color: #B2DFDB;
+    color: #00796B;
+  }
+  .genre-metal {
+    background-color: #BDBDBD;
+    color: #424242;
+  }
+  .genre-reggae {
+    background-color: #DCEDC8;
+    color: #689F38;
+  }
+  .genre-world {
+    background-color: #FFE0B2;
+    color: #F57C00;
+  }
+  .genre-other {
+    background-color: lighten($primary-pink, 30%);
+    color: $primary-pink-dark;
   }
 
   .description {

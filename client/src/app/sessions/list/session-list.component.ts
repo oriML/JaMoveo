@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService, Role } from 'src/app/auth/auth.service';
 import { SessionSocketService } from '../session-socket.service';
 import { Subscription } from 'rxjs';
+import { GENRE_COLORS } from '../../shared/constants/genre-colors.constant';
 
 @Component({
   selector: 'app-session-list',
@@ -25,6 +26,14 @@ export class SessionListComponent implements OnInit, OnDestroy {
   public isLoading = signal(true);
   public error = signal<string | null>(null);
   public currentUser = this.authService.currentUser;
+
+  get isAdmin(){
+    return this.authService.currentUser()?.role === Role.Admin;
+  }
+
+  getGenreStyle(genre: string) {
+    return GENRE_COLORS.get(genre.toUpperCase());
+  }
 
   ngOnInit(): void {
     this.loadSessions();
