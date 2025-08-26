@@ -10,7 +10,6 @@ export const findUserByUsername = async (username: string): Promise<User | undef
     .single();
 
   if (error && error.code !== 'PGRST116') {
-    console.error('Error finding user:', error);
     return undefined;
   }
   return data as User | undefined;

@@ -171,35 +171,3 @@ export const endSession = async (sessionId: string, io: Server): Promise<void> =
     }, 500);
 };
 
-// This function is kept for potential use if a direct HTTP-based join is ever needed,
-// but the primary flow is now via sockets.
-export const joinSessionViaHttp = async (sessionId: string, participant: Omit<Participant, 'id'> & { id: string; role: Role }): Promise<JamSession | undefined> => {
-  const session = await findSessionById(sessionId);
-
-  if (!session) {
-    throw new Error('Session not found');
-  }
-
-  if (session.participants.length >= session.max_participants) {
-    throw new Error('Session is full');
-  }
-
-  const existingParticipant = session.participants.find(p => p.id === participant.id);
-  if (existingParticipant) {
-    return session; // Already in session
-  }
-
-  const { error } = await supabase
-    .from('session_participants')
-    .insert({
-      session_id: sessionId,
-      user_id: participant.id,
-      instrument: participant.instrument,
-    });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return findSessionById(sessionId);
-};

@@ -23,7 +23,6 @@ export const searchSongs = async (query: string): Promise<Song[]> => {
   const { data, error } = await queryBuilder;
 
   if (error) {
-    
     return [];
   }
 
