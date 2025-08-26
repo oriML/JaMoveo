@@ -1,18 +1,11 @@
 
 import { Server, Socket } from 'socket.io';
-import { findSessionById, addParticipant, removeParticipant, updateSessionSong } from './session.service';
+import { addParticipant, removeParticipant, getAllSessions } from './session.service';
 import { User } from '../models/user.model';
 
-// Define interfaces for type safety
 interface JoinSessionPayload {
   sessionId: string;
   user: User;
-}
-
-interface SongChangedPayload {
-  sessionId: string;
-  song_title: string;
-  song_artist: string;
 }
 
 export const initializeSocket = (io: Server) => {
@@ -26,6 +19,10 @@ export const initializeSocket = (io: Server) => {
 
         // Add participant to the session in the database
         const updatedSession = await addParticipant(sessionId, user);
+        
+        // Store user and session ID on the socket for later use (e.g., on disconnect)
+        (socket as any).userId = user.id;
+        (socket as any).sessionId = sessionId;
         
         if (updatedSession) {
           // Notify others in the room
@@ -73,8 +70,38 @@ export const initializeSocket = (io: Server) => {
         }
     });
 
-    socket.on('disconnect', () => {
-      
+    socket.on('disconnect', async () => {
+      const userId = (socket as any).userId;
+      const sessionId = (socket as any).sessionId;
+
+      if (userId && sessionId) {
+        console.log(`User ${userId} disconnected from session ${sessionId}. Removing participant.`);
+        try {
+          await removeParticipant(sessionId, userId);
+          // Notify others in the room that this participant has left
+          io.to(sessionId).emit('participantLeft', { id: userId });
+        } catch (error) {
+          console.error(`Error removing participant ${userId} from session ${sessionId} on disconnect:`, error);
+        }
+      }
+      console.log(`Client disconnected: ${socket.id}`);
     });
+  });
+
+  io.on('userLoggedOut', async ({ userId }: { userId: string }) => {
+    console.log(`Server: Received userLoggedOut event for userId: ${userId}`);
+    try {
+      const allSessions = await getAllSessions();
+      for (const session of allSessions) {
+        const participant = session.participants.find(p => p.id === userId);
+        if (participant) {
+          console.log(`Server: Removing user ${userId} from session ${session.id} due to logout.`);
+          await removeParticipant(session.id, userId);
+          io.to(session.id).emit('participantLeft', { id: userId, username: participant.username, instrument: participant.instrument }); // Emit user stub
+        }
+      }
+    } catch (error) {
+      console.error(`Error handling userLoggedOut for userId ${userId}:`, error);
+    }
   });
 };

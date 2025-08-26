@@ -166,8 +166,9 @@ export const endSession = async (sessionId: string, io: Server): Promise<void> =
     const payload = { sessionId, message: 'The session has ended.' };
     io.to(sessionId).emit('sessionEnded', payload);
     
-    // Make all sockets leave the room
-    io.socketsLeave(sessionId);
+    setTimeout(() => {
+        io.socketsLeave(sessionId);
+    }, 500);
 };
 
 // This function is kept for potential use if a direct HTTP-based join is ever needed,
