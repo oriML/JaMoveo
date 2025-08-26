@@ -1,0 +1,16 @@
+export const GENRE_COLORS: Map<string, string> = new Map([
+  ['ROCK', 'genre-rock'],
+  ['JAZZ', 'genre-jazz'],
+  ['BLUES', 'genre-blues'],
+  ['POP', 'genre-pop'],
+  ['ELECTRONIC', 'genre-electronic'],
+  ['CLASSICAL', 'genre-classical'],
+  ['HIP HOP', 'genre-hiphop'],
+  ['R&B', 'genre-rnb'],
+  ['COUNTRY', 'genre-country'],
+  ['FOLK', 'genre-folk'],
+  ['METAL', 'genre-metal'],
+  ['REGGAE', 'genre-reggae'],
+  ['WORLD', 'genre-world'],
+  ['OTHER', 'genre-other'],
+]);

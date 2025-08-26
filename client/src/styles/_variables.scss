@@ -1,5 +1,4 @@
 
-// --- Colors ---
 $primary-pink: #d81b60; // Deep pink
 $primary-pink-light: #f06292; // Lighter pink for accents/hover
 $primary-pink-dark: #a00037; // Darker pink for active/focus
@@ -14,11 +13,9 @@ $neutral-gray-darkest: #212121; // Almost black for primary text/headings
 
 $error-red: #e53935; // Red for error messages
 
-// --- Typography ---
-$font-family-sans-serif: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+$font-family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $base-font-size: 16px;
 
-// --- Spacing ---
 $spacing-xxs: 4px;
 $spacing-xs: 8px;
 $spacing-sm: 12px;
@@ -27,17 +24,14 @@ $spacing-lg: 24px;
 $spacing-xl: 32px;
 $spacing-xxl: 48px;
 
-// --- Border Radius ---
 $border-radius-sm: 4px;
 $border-radius-md: 8px;
 $border-radius-lg: 12px;
 $border-radius-pill: 9999px;
 
-// --- Box Shadows ---
 $shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 $shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 $shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
-// --- Transitions ---
 $transition-speed: 0.3s;
 $transition-ease: ease-in-out;
