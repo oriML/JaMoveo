@@ -35,7 +35,6 @@ export class InstrumentPickerComponent implements ControlValueAccessor {
 
   selectedInstrument: WritableSignal<string | null> = signal(null);
 
-  // ControlValueAccessor methods
   onChange: any = () => {};
   onTouch: any = () => {};
 
@@ -54,7 +53,6 @@ export class InstrumentPickerComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Not implemented for this component, but required by interface
   }
 
   selectInstrument(instrument: InstrumentOption): void {
@@ -63,7 +61,6 @@ export class InstrumentPickerComponent implements ControlValueAccessor {
     this.onTouch();
   }
 
-  // Accessibility: Handle keyboard navigation
   onKeyDown(event: KeyboardEvent, instrument: InstrumentOption): void {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();

@@ -31,10 +31,7 @@ export class QuitComponent {
     this.http.post(`${environment.apiUrl}/api/sessions/${this.sessionId}/end`, {})
       .pipe(finalize(() => this.isQuitting = false))
       .subscribe({
-        next: () => {
-          // The request was successful. The backend will now broadcast the 'sessionEnded'
-          // event, and the LiveViewComponent will handle the navigation for everyone.
-        },
+        next: () => {},
         error: err => this.error = err.error?.message || 'Failed to end the session.',
       });
   }

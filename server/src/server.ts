@@ -42,7 +42,7 @@ const io = new Server(server, {
     cors: corsOptions
 });
 
-app.set('io', io); // Make io accessible to routes
+app.set('io', io);
 
 initializeSocket(io);
 

@@ -15,7 +15,7 @@ export class AppComponent {
 
   isSidebarOpen: boolean = false;
   private router = inject(Router);
-  shouldShowNavbar: boolean = true; // Initial state
+  shouldShowNavbar: boolean = true;
 
   constructor() {
     this.router.events.pipe(

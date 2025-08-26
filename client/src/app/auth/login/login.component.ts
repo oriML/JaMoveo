@@ -23,7 +23,7 @@ export class LoginComponent {
   loginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
-    secretKey: [''], // New field for optional secret key
+    secretKey: [''],
   });
 
   get username() {

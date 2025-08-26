@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 export const findUserByUsername = async (username: string): Promise<User | undefined> => {
   const { data, error } = await supabase
     .from('users')
-    .select('id, username, password_hash, role, instrument, secret_key') // Select secret_key
+    .select('id, username, password_hash, role, instrument, secret_key')
     .eq('username', username)
     .single();
 
@@ -29,7 +29,7 @@ export const createUser = async (user: Omit<User, 'id' | 'role' | 'secret_key'> 
       instrument: defaultInstrument,
       secret_key: user.secret_key || null
     })
-    .select('id, username, role, instrument, secret_key') // Select secret_key to return
+    .select('id, username, role, instrument, secret_key')
     .single();
 
   if (error) {

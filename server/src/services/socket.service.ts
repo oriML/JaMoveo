@@ -14,17 +14,13 @@ export const initializeSocket = (io: Server) => {
       try {
         socket.join(sessionId);
 
-        // Add participant to the session in the database
         const updatedSession = await addParticipant(sessionId, user);
         
-        // Store user and session ID on the socket for later use (e.g., on disconnect)
         (socket as any).userId = user.id;
         (socket as any).sessionId = sessionId;
         
         if (updatedSession) {
-          // Notify others in the room
           socket.to(sessionId).emit('participantJoined', user);
-          // Send the current session state to the joining user
           socket.emit('sessionState', {
             participants: updatedSession.participants,
             activeSong: { 
@@ -42,10 +38,8 @@ export const initializeSocket = (io: Server) => {
       try {
         socket.leave(sessionId);
 
-        // Remove participant from the session in the database
         await removeParticipant(sessionId, user.id);
 
-        // Notify others in the room
         io.to(sessionId).emit('participantLeft', user);
       } catch (error) {
       }
@@ -65,7 +59,6 @@ export const initializeSocket = (io: Server) => {
       if (userId && sessionId) {
         try {
           await removeParticipant(sessionId, userId);
-          // Notify others in the room that this participant has left
           io.to(sessionId).emit('participantLeft', { id: userId });
         } catch (error) {
         }

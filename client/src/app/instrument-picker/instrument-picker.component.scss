@@ -2,7 +2,7 @@
 
 .instrument-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Multi-column responsive grid */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: $spacing-md;
   margin-top: $spacing-md;
 }
@@ -10,17 +10,17 @@
 .instrument-card {
   background-size: cover;
   background-position: center;
-  min-height: 150px; /* Ensure a minimum height for the card */
+  min-height: 150px;
   border: 2px solid $neutral-gray-light;
   border-radius: $border-radius-lg;
   box-shadow: $shadow-sm;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center content vertically */
+  justify-content: center;
   cursor: pointer;
   transition: all $transition-speed $transition-ease;
-  will-change: transform; /* Hint to the browser for animation */
+  will-change: transform;
 
   &:hover {
     box-shadow: $shadow-md;
@@ -29,7 +29,7 @@
   &.selected {
     border-color: $primary-pink;
     box-shadow: 0 0 0 3px rgba($primary-pink, 0.3);
-    /* Removed transform: scale(1.02) to avoid potential issues */
+  
   }
 
   &:focus-visible {

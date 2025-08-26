@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthService, Role } from '../auth.service';
-import { InstrumentPickerComponent } from '../../instrument-picker/instrument-picker.component'; // Import InstrumentPickerComponent
+import { AuthService } from '../auth.service';
+import { InstrumentPickerComponent } from '../../instrument-picker/instrument-picker.component';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +24,7 @@ export class SignupComponent {
   signupForm = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    instrument: [null, Validators.required], // Change default to null for picker
+    instrument: [null, Validators.required],
   });
 
   get username() {

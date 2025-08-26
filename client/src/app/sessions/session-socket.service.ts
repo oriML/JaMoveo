@@ -23,21 +23,18 @@ export class SessionSocketService implements OnDestroy {
   private authService = inject(AuthService);
   private socket: Socket;
 
-  // Using Subjects to broadcast events as Observables
   private participantJoined = new Subject<Participant>();
   private participantLeft = new Subject<Participant>();
   private sessionEnded = new Subject<{ sessionId: string, message: string }>();
   private songChanged = new Subject<{ sessionId: string, song_title: string, song_artist: string }>();
   private sessionCreated = new Subject<JamSession>();
 
-  // Public observables for components to subscribe to
   public participantJoined$ = this.participantJoined.asObservable();
   public participantLeft$ = this.participantLeft.asObservable();
   public sessionEnded$ = this.sessionEnded.asObservable();
   public songChanged$ = this.songChanged.asObservable();
   public sessionCreated$ = this.sessionCreated.asObservable();
 
-  // State signals
   private _participants: WritableSignal<Participant[]> = signal([]);
   public readonly participants: Signal<Participant[]> = computed(this._participants);
 

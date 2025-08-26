@@ -105,7 +105,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
     this._subscriptions.add(
       this.socketService.songChanged$.subscribe(data => {
         if (data.sessionId === this._sessionId) {
-          // When a song change is received, update the selected song display as well
           this.selectedSong = data.song_title ? { title: data.song_title, artist: data.song_artist } as Song : null;
           this.updateSongContent(data.song_title, data.song_artist);
         }
@@ -175,7 +174,6 @@ export class LiveViewComponent implements OnInit, OnDestroy {
       this.startScrolling();
     }
   }
-  // This is now the event handler for the SearchComponent's (songSelected) event
   selectSong(song: Song): void {
     this.selectedSong = song;
     this.updateSessionSong(song.title, song.artist);

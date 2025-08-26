@@ -5,7 +5,7 @@ import { User, Role } from '../models/user.model';
 import * as bcrypt from 'bcryptjs'
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key'; // Use environment variables in production
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key';
 const JWT_EXPIRATION = '1h';
 
 const signToken = (user: User) => {
@@ -25,7 +25,7 @@ router.post('/signup', async (req: Request, res: Response) => {
       return res.status(409).json({ message: 'Username already exists' });
     }
 
-    const newUser = await createUser({ username, password, instrument }, Role.User); // Always assign USER role
+    const newUser = await createUser({ username, password, instrument }, Role.User);
 
     const token = signToken(newUser);
 
@@ -61,7 +61,7 @@ router.post('/admin/signup', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  const { username, password, secretKey } = req.body; // Accept secretKey from login form
+  const { username, password, secretKey } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({ message: 'Username and password are required' });
@@ -74,7 +74,6 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // If user is admin, verify secretKey
     if (user.role === Role.Admin) {
       if (!secretKey || user.secret_key !== secretKey) {
         return res.status(401).json({ message: 'Invalid admin secret key' });

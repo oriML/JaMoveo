@@ -9,7 +9,7 @@ export interface User {
   username: string;
   role: Role;
   instrument?: string;
-  token?: string; // Add token property
+  token?: string;
 }
 
 export enum Role {
@@ -79,7 +79,7 @@ export class AuthService {
         localStorage.removeItem('jwt_token');
         this.authToken.set(null);
         this.sessionService.clearState();
-        this._logoutSubject.next(); // Emit logout event
+        this._logoutSubject.next();
       })
     );
   }
@@ -88,14 +88,14 @@ export class AuthService {
     const token = localStorage.getItem('jwt_token');
     if (token) {
       this.authToken.set(token);
-      // Make the /me request with the token from localStorage
+
       return this.http.get<User>(`${API_URL}/me`).pipe(
         tap((user) => {
           this._currentUser.set(user);
         }),
         catchError((err) => {
           this._currentUser.set(null);
-          localStorage.removeItem('jwt_token'); // Clear invalid token
+          localStorage.removeItem('jwt_token');
           this.authToken.set(null);
           return of(null);
         })

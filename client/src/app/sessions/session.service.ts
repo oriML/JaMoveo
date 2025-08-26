@@ -69,11 +69,9 @@ export class SessionService {
 
   createSession(sessionData: Partial<JamSession>): Observable<JamSession> {
     return this.http.post<JamSession>(`${API_URL}/create`, sessionData);
-    // The socket service will handle adding the session to the signal via the 'sessionCreated' event
   }
 
   addSession(newSession: JamSession): void {
-    // Avoid adding duplicates
     if (!this._sessions().find(s => s.id === newSession.id)) {
       this._sessions.update(sessions => [newSession, ...sessions]);
     }

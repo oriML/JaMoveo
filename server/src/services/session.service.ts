@@ -66,7 +66,6 @@ export const createSession = async (
   
   const sessionWithParticipant = { ...newSession, participants: [initialParticipant] };
 
-  // Broadcast to all clients
   io.emit('sessionCreated', sessionWithParticipant);
 
   return sessionWithParticipant;
@@ -109,7 +108,7 @@ export const addParticipant = async (sessionId: string, user: User, instrument: 
     if (!session) throw new Error('Session not found');
     if (session.participants.length >= session.max_participants) throw new Error('Session is full');
     if (session.participants.find(p => p.id === user.id)) {
-        return session; // User is already in the session
+        return session;
     }
 
     const { error } = await supabase

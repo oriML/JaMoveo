@@ -102,11 +102,11 @@
 
 .main-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Main feed (2 parts) and side panels (1 part) */
+  grid-template-columns: 2fr 1fr;
   gap: $spacing-xl;
 
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr; /* Stack on medium screens */
+    grid-template-columns: 1fr;
   }
 }
 
@@ -200,7 +200,7 @@
 .lyrics-chords-panel {
   display: flex;
   flex-direction: column;
-  background-color: #363636; /* Soft Dark Background */
+  background-color: #363636;
 
   .panel-content {
     flex-grow: 1;
@@ -211,7 +211,7 @@
   .lyrics-scroll-container {
     flex-grow: 1;
     overflow-y: auto;
-    height: 300px; /* Adjust as needed */
+    height: 300px;
     padding-right: $spacing-xs;
     scroll-behavior: smooth;
   }
@@ -221,7 +221,7 @@
 
     .chords {
       font-weight: bold;
-      color: $primary-pink; /* Deep Pink */
+      color: $primary-pink;
       margin-bottom: $spacing-xxs;
       font-size: 1.1em;
       text-transform: uppercase;
@@ -232,7 +232,7 @@
     }
 
     .lyrics {
-      color: $primary-pink; /* Deep Pink */
+      color: $primary-pink;
       line-height: 1.5;
       font-size: 1.2em;
 

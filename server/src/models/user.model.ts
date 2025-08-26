@@ -4,7 +4,7 @@ export interface User {
   password_hash?: string;
   role: Role;
   instrument?: string;
-  secret_key?: string; // New: Optional secret key for admin login
+  secret_key?: string;
 }
 
 export enum Role {

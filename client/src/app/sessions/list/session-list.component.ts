@@ -62,7 +62,6 @@ export class SessionListComponent implements OnInit, OnDestroy {
   }
 
   viewSessionDetails(sessionId: string): void {
-    // Navigation logic remains the same
     this.router.navigate(['/live', sessionId]);
   }
 }
