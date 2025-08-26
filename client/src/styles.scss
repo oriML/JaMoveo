@@ -1,7 +1,6 @@
 @import './styles/variables';
 
 
-// Global styles
 body {
   font-family: $font-family-sans-serif;
   margin: 0;
@@ -10,7 +9,6 @@ body {
   font-size: $base-font-size;
 }
 
-// Basic button styles (can be extended per component)
 .button {
   padding: $spacing-sm $spacing-md;
   border: none;
@@ -48,7 +46,6 @@ body {
   }
 }
 
-// Basic form field styles
 .form-field {
   margin-bottom: $spacing-lg;
 

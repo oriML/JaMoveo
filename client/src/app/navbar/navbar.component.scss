@@ -1,6 +1,5 @@
 @import '../../styles/variables';
 
-/* Sidebar Toggle Button */
 .sidebar-toggle {
   position: fixed;
   top: $spacing-md;
@@ -11,7 +10,7 @@
   flex-direction: column;
   gap: 5px;
   padding: $spacing-sm;
-  background-color: $neutral-gray-darkest;
+  background-color: $primary-pink;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
 
@@ -23,14 +22,13 @@
   }
 }
 
-/* Sidebar Navigation */
 .sidebar {
   position: fixed;
   top: 0;
   left: -250px;
   width: 250px;
   height: 100%;
-  background-color: $neutral-gray-darkest;
+  background-color: $primary-pink;
   color: $secondary-white;
   box-shadow: $shadow-md;
   transition: left $transition-speed $transition-ease;
