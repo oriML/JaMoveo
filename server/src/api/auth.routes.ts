@@ -29,7 +29,13 @@ router.post('/signup', async (req: Request, res: Response) => {
 
     const token = signToken(newUser);
 
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      domain: '.onrender.com',
+      path: '/',
+    });
     res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument });
 
   } catch (error) {
@@ -54,7 +60,13 @@ router.post('/admin/signup', async (req: Request, res: Response) => {
 
     const token = signToken(newUser);
 
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      domain: '.onrender.com',
+      path: '/',
+    });
     res.status(201).json({ id: newUser.id, username: newUser.username, role: newUser.role, instrument: newUser.instrument, secret_key: newUser.secret_key });
 
   } catch (error) {
@@ -85,7 +97,13 @@ router.post('/login', async (req: Request, res: Response) => {
 
     const token = signToken(user);
 
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      domain: '.onrender.com',
+      path: '/',
+    });
     res.status(200).json({ id: user.id, username: user.username, instrument: user.instrument, role: user.role, secret_key: user.secret_key });
 
   } catch (error) {
