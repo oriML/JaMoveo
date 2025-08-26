@@ -71,6 +71,38 @@
   }
 }
 
+.form-field-select.custom-select {
+  appearance: none;
+  width: fit-content;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23424242" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 30px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $primary-pink-light;
+  }
+
+  &:focus {
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 2px rgba($primary-pink, 0.2);
+  }
+
+  option {
+    background-color: $secondary-white;
+    color: $neutral-gray-darkest;
+    padding: $spacing-sm;
+  }
+
+  option:checked {
+    background-color: $primary-pink-light;
+    color: $secondary-white;
+  }
+}
+
 .song-selection-section {
   margin-bottom: $spacing-lg;
   padding-bottom: $spacing-lg;

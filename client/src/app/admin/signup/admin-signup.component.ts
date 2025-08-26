@@ -25,7 +25,7 @@ export class AdminSignupComponent {
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     instrument: [null, Validators.required],
-    secretKey: ['', Validators.required], // New field for admin secret key
+    secretKey: ['', Validators.required],
   });
 
   get username() {

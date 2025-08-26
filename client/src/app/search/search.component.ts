@@ -28,7 +28,6 @@ export class SearchComponent implements OnInit {
 
   songSelected = output<Song>();
 
-  // Internal state signals
   public searchQuery = signal('');
   public results = signal<Song[]>([]);
   public isLoading = signal(false);
@@ -38,24 +37,24 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchInputSubject.pipe(
-      debounceTime(300), // Slightly faster debounce time
+      debounceTime(300),
       distinctUntilChanged(),
       tap(query => {
         this.isLoading.set(true);
         this.error.set(null);
         this.searchQuery.set(query);
         if (!query.trim()) {
-            this.results.set([]);
+          this.results.set([]);
         }
       }),
       switchMap(query => {
         if (!query.trim()) {
-          return of([]); // Return empty observable if query is empty
+          return of([]);
         }
         return this.http.get<Song[]>(`${environment.apiUrl}/api/search?q=${query}`).pipe(
           catchError((err) => {
             this.error.set(err.error?.message || 'An error occurred during search.');
-            return of([]); // Return empty array on error
+            return of([]);
           })
         );
       }),
@@ -73,8 +72,8 @@ export class SearchComponent implements OnInit {
 
   selectSong(song: Song): void {
     this.songSelected.emit(song);
-    this.searchQuery.set(''); // Clear search bar
-    this.results.set([]); // Clear results
+    this.searchQuery.set('');
+    this.results.set([]);
     this.error.set(null);
   }
 }

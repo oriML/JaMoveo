@@ -51,7 +51,7 @@
         <!-- Genre -->
         <div class="form-field">
           <label for="genre" class="form-field-label">Genre</label>
-          <select id="genre" formControlName="genre" class="form-field-select">
+          <select id="genre" formControlName="genre" class="form-field-select custom-select">
             @for (genre of genres; track genre) {<option [value]="genre">{{ genre | titlecase }}</option>}
           </select>
         </div>

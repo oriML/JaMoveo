@@ -47,7 +47,7 @@
   box-shadow: $shadow-lg;
   position: absolute;
   width: 100%;
-  z-index: 1000; // Ensure it appears above other content
+  z-index: 1000;
   max-height: 300px;
   overflow-y: auto;
 }

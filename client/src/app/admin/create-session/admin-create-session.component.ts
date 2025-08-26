@@ -4,19 +4,10 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { SessionService } from '../../sessions/session.service';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
-import { SearchComponent, Song } from '../../search/search.component'; // Import SearchComponent
+import { FormsModule } from '@angular/forms';
+import { SearchComponent, Song } from '../../search/search.component';
+import { GENRE_COLORS } from '../../shared/constants/genre-colors.constant';
 
-import { environment } from 'src/environments/environment';
-
-// Enum for genre choices for type safety
-export enum Genre {
-  Rock = 'ROCK',
-  Jazz = 'JAZZ',
-  Classical = 'CLASSICAL',
-  Other = 'OTHER',
-}
 
 @Component({
   selector: 'app-admin-create-session',
@@ -26,28 +17,23 @@ export enum Genre {
   styleUrls: ['./admin-create-session.component.scss'],
 })
 export class AdminCreateSessionComponent {
-  // --- DI using inject() ---
   private fb = inject(FormBuilder);
   private sessionService = inject(SessionService);
   private router = inject(Router);
 
-  // --- Component State ---
-  public genres = Object.values(Genre);
+  public genres = Array.from(GENRE_COLORS.keys());
   public apiError: string | null = null;
   public isSubmitting = false;
 
-  // --- Song Selection State ---
   public selectedSong: Song | null = null;
 
-  // --- Reactive Form Definition ---
   createSessionForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(5)]],
     description: ['', Validators.maxLength(200)],
-    genre: [Genre.Rock, Validators.required],
+    genre: [this.genres[0], Validators.required],
     maxParticipants: [8, [Validators.required, Validators.min(2), Validators.max(20)]],
   });
 
-  // --- Template Helpers ---
   get name() {
     return this.createSessionForm.get('name');
   }
@@ -63,9 +49,7 @@ export class AdminCreateSessionComponent {
     this.selectedSong = null;
   }
 
-  // --- Form Submission ---
   onSubmit(): void {
-    // Add validation for selected song
     if (!this.selectedSong) {
       this.apiError = 'Please select a song for the session.';
       return;
@@ -90,7 +74,6 @@ export class AdminCreateSessionComponent {
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: (newSession) => {
-          // On success, navigate to the new session's page
           this.router.navigate(['/sessions', newSession.id]);
         },
         error: (err) => {
