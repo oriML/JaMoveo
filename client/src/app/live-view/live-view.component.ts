@@ -39,6 +39,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   public songLines = signal<SongLine[]>([]);
   public isLoading = signal(true);
   public error = signal<string | null>(null);
+  public sessionName = signal<string | undefined>(undefined);
 
   public isScrolling = signal(false);
   public isAdmin = signal(false);
@@ -92,6 +93,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
         next: (session) => {
           this.socketService.setInitialParticipants(session.participants);
           this.updateSongContent(session.song_title, session.song_artist);
+          this.sessionName.set(session.name);
         },
         error: (err) => {
           this.error.set(err.error?.message || 'Failed to load session data.');

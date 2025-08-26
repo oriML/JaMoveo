@@ -28,23 +28,22 @@
   margin-bottom: $spacing-lg;
 
   .live-view-header-title {
-    color: $neutral-gray-darkest;
-    margin-bottom: $spacing-xs;
-    font-size: 1.6em;
+  font-size: 2em;
+  color: $primary-pink;
+  margin-bottom: $spacing-xs;
+}
 
-    @media (min-width: 769px) {
-      font-size: 1.8em;
-    }
-  }
+.live-view-session-name {
+  font-size: 1.5em;
+  color: $neutral-gray-darkest;
+  margin-bottom: $spacing-sm;
+}
 
-  .live-view-header-subtitle {
-    color: $neutral-gray-medium;
-    font-size: 0.9em;
-
-    @media (min-width: 769px) {
-      font-size: 1em;
-    }
-  }
+.live-view-header-subtitle {
+  font-size: 0.9em;
+  color: $neutral-gray-medium;
+  margin-bottom: $spacing-md;
+}
 }
 
 .current-song-display {
