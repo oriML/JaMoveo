@@ -21,8 +21,6 @@ JaMoveo helps musicians and singers manage jam sessions, share lyrics and chords
     -   [Frontend Setup](#frontend-setup)
     -   [Running the Application](#running-the-application)
 -   [Usage](#usage)
--   [Contributing](#contributing)
--   [License](#license)
 
 ## Features
 
@@ -51,8 +49,6 @@ JaMoveo helps musicians and singers manage jam sessions, share lyrics and chords
 -   Supabase (for Database & Authentication)
 
 ## Screenshots
-
-*(Add your project screenshots here. Create a `screenshots` directory in the root of your project and place images there.)*
 
 Example:
 ![Login Page](screenshots/login-screen-sh.png)
