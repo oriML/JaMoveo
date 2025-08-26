@@ -79,18 +79,6 @@ export class SessionService {
     }
   }
 
-  joinSession(sessionId: string, userId: string, instrument: string): Observable<JamSession> {
-    return this.http.post<JamSession>(`${API_URL}/join/${sessionId}`, { userId, instrument }).pipe(
-      tap(updatedSession => {
-        this._currentSession.set(updatedSession);
-
-        this._sessions.update(sessions => 
-          sessions.map(s => s.id === sessionId ? updatedSession : s)
-        );
-      })
-    );
-  }
-
   clearState(): void {
     this._sessions.set([]);
     this._currentSession.set(null);
