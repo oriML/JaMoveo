@@ -5,13 +5,14 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SessionSocketService } from '../sessions/session-socket.service';
 import { AuthService, User, Role } from '../auth/auth.service';
-import { Subscription, finalize, lastValueFrom, take } from 'rxjs';
+import { Subscription, catchError, finalize, lastValueFrom, of, take, tap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { QuitComponent } from '../quit/quit.component';
 import { SearchComponent, Song } from '../search/search.component';
-import { JamSession } from '../sessions/session.service';
+import { JamSession, SessionService } from '../sessions/session.service';
 
 import { environment } from 'src/environments/environment';
+import { SongsService } from '../shared/songs.service';
 
 interface SongLine {
   lyrics: string;
@@ -29,8 +30,12 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private http = inject(HttpClient);
-  public socketService = inject(SessionSocketService);
   private authService = inject(AuthService);
+  private sessionService = inject(SessionService);
+  private songsService = inject(SongsService);
+
+  public socketService = inject(SessionSocketService);
+
 
   @ViewChild('lyricsContainer') lyricsContainer!: ElementRef;
 
@@ -50,7 +55,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   private _subscriptions = new Subscription();
   private _scrollInterval: any;
 
-  get sessionId(){
+  get sessionId() {
     return this._sessionId;
   }
 
@@ -87,13 +92,13 @@ export class LiveViewComponent implements OnInit, OnDestroy {
 
   private fetchInitialSessionData(sessionId: string): void {
     this.isLoading.set(true);
-    this.http.get<JamSession>(`${environment.apiUrl}/api/sessions/${sessionId}`)
+    this.sessionService.getSessionById(sessionId)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (session) => {
-          this.socketService.setInitialParticipants(session.participants);
-          this.updateSongContent(session.song_title, session.song_artist);
-          this.sessionName.set(session.name);
+          this.socketService.setInitialParticipants(session?.participants ?? []);
+          this.updateSongContent(session?.song_title, session?.song_artist);
+          this.sessionName.set(session?.name);
         },
         error: (err) => {
           this.error.set(err.error?.message || 'Failed to load session data.');
@@ -114,7 +119,7 @@ export class LiveViewComponent implements OnInit, OnDestroy {
     this._subscriptions.add(
       this.socketService.sessionEnded$.subscribe(data => {
         if (data.sessionId === this._sessionId) {
-          
+
           this.router.navigate(['/sessions']);
         }
       })
@@ -128,18 +133,24 @@ export class LiveViewComponent implements OnInit, OnDestroy {
     this.stopScrolling();
 
     if (title && artist) {
-      try {
-        const songs = await lastValueFrom(this.http.get<Song[]>(`${environment.apiUrl}/api/search?q=${title}`));
-        const content = songs[0]?.lines;
-        if (content?.length) {
-          this.songLines.set(content);
-          this.startScrolling();
-        } else {
-          this.songLines.set([{ chords: '', lyrics: 'Lyrics/Chords not available for this song.' }]);
-        }
-      } catch (error) {
-        this.songLines.set([]);
-      }
+      this.songsService.searchSong(title)
+        .pipe(
+          take(1),
+          tap(songs => {
+            const content = songs[0]?.lines;
+            if (content?.length) {
+              this.songLines.set(content);
+              this.startScrolling();
+            } else {
+              this.songLines.set([{ chords: '', lyrics: 'Lyrics/Chords not available for this song.' }]);
+            }
+          }),
+          catchError(() => {
+            this.songLines.set([]);
+            return of(null);
+          })
+        )
+        .subscribe();
     } else {
       this.songLines.set([]);
     }
@@ -185,9 +196,9 @@ export class LiveViewComponent implements OnInit, OnDestroy {
   }
 
   private updateSessionSong(title: string | null, artist: string | null): void {
-    this.http.post(`${environment.apiUrl}/api/sessions/${this._sessionId}/song`, { song_title: title, song_artist: artist })
-    .pipe(take(1))  
-    .subscribe();
+    this.sessionService.updateSessionSong(title, artist)
+      .pipe(take(1))
+      .subscribe();
   }
 
   isCurrentUser(user: User): boolean {

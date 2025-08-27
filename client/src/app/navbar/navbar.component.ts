@@ -1,4 +1,4 @@
-import { Component, inject, signal, Output, EventEmitter } from '@angular/core';
+import { Component, inject, signal, Output, EventEmitter, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService, Role } from '../auth/auth.service';
@@ -18,7 +18,7 @@ export class NavbarComponent {
   public isLoggedIn = this.authService.isLoggedIn;
 
   public isOpen = signal(false);
-  @Output() sidebarToggle = new EventEmitter<boolean>();
+  sidebarToggle = output<boolean>();
 
   public get isAdmin(): boolean {
     return this.currentUser()?.role === Role.Admin;

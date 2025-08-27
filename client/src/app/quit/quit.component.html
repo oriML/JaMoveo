@@ -1,4 +1,4 @@
-@if (isAdmin) {
+@if (isAdmin()) {
   <div class="quit-container">
     <button class="button button-warning" (click)="quitSession()" [disabled]="isQuitting">
       @if (!isQuitting) {<span>End Session</span>}

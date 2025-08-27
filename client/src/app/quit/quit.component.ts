@@ -1,8 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { finalize } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { SessionService } from '../sessions/session.service';
 
 @Component({
   selector: 'app-quit',
@@ -12,10 +13,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./quit.component.scss'],
 })
 export class QuitComponent {
-  @Input() sessionId!: string;
-  @Input() isAdmin: boolean = false;
+  sessionId = input.required<string>();
+  isAdmin = input<boolean>(false);
 
-  private http = inject(HttpClient);
+  private sessionService = inject(SessionService);
 
   public isQuitting = false;
   public error: string | null = null;
@@ -27,12 +28,11 @@ export class QuitComponent {
 
     this.isQuitting = true;
     this.error = null;
-
-    this.http.post(`${environment.apiUrl}/api/sessions/${this.sessionId}/end`, {})
-      .pipe(finalize(() => this.isQuitting = false))
-      .subscribe({
-        next: () => {},
-        error: err => this.error = err.error?.message || 'Failed to end the session.',
-      });
+    this.sessionService.endSession(this.sessionId())
+      .pipe(
+        finalize(() => this.isQuitting = false),
+        take(1),
+      )
+      .subscribe();
   }
 }
