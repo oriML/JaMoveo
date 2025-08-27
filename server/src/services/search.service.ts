@@ -11,7 +11,7 @@ interface Song {
   }[]
 }
 
-export const searchSongs = async (query: string): Promise<Song[]> => {
+export const searchSongs = async (query: string, onlyLyrics: boolean): Promise<Song[]> => {
   let queryBuilder = supabase
     .from('songs')
     .select('id, title, artist, duration, lines');
@@ -25,6 +25,20 @@ export const searchSongs = async (query: string): Promise<Song[]> => {
   if (error) {
     return [];
   }
+// need optimization on DB to reduce from query
+  let result = onlyLyrics ?
+    data.map((song) => {
+      return {
+        ...song,
+        lines: song.lines.reduce((p: [], c: { lyrics: string, chords: string }) => ([
+          ...p,
+          {
+            lyrics: c.lyrics,
+            chords: ''
+          }]), [])
+      }
+    })
+    : data;
 
-  return data as Song[];
+  return result as Song[];
 };

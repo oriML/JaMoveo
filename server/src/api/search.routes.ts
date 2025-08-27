@@ -20,7 +20,8 @@ router.get('/', async (req: Request, res: Response) => {
   }
 
   try {
-    const results = await searchSongs(query);
+    const onlyLyrics = req.user?.instrument == 'VOCALS';
+    const results = await searchSongs(query, onlyLyrics);
     res.json(results);
   } catch (error) {
     res.status(500).json({ message: 'Error during search.' });
